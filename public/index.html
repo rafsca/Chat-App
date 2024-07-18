@@ -39,7 +39,15 @@
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
     <script>
       // Connessione al server socket.io
-      var socket = io("http://localhost:3000");
+      const socketUrl = window.location.hostname.includes("localhost")
+        ? "http://localhost:3000"
+        : `https://${window.location.hostname}`;
+
+      var socket = io(socketUrl, {
+        path: "/socket.io",
+      });
+
+      console.log("socketUrl", socketUrl);
 
       // Gestione dell'invio del modulo
       document.addEventListener("DOMContentLoaded", async (event) => {
