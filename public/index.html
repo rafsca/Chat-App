@@ -39,15 +39,11 @@
     <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
     <script>
       // Connessione al server socket.io
-      const socketUrl = window.location.hostname.includes("localhost")
+      const URL = window.location.hostname.includes("localhost")
         ? "http://localhost:3000"
         : `https://${window.location.hostname}`;
 
-      var socket = io(socketUrl, {
-        path: "/socket.io",
-      });
-
-      console.log("socketUrl", socketUrl);
+      var socket = io(URL);
 
       // Gestione dell'invio del modulo
       document.addEventListener("DOMContentLoaded", async (event) => {
@@ -57,7 +53,7 @@
 
         // Scarica i messaggi iniziali
         try {
-          const response = await fetch("http://localhost:3000/api/messages");
+          const response = await fetch(`${URL}/api/messages`);
           const initialMessages = await response.json();
           initialMessages.forEach((msg) => {
             var item = document.createElement("li");
