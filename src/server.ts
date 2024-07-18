@@ -9,6 +9,9 @@ import path from "path";
 
 config();
 
+const apiPort = process.env.API_PORT || 8080;
+const socketPort = process.env.SOCKET_PORT || 3000;
+
 const app = express();
 const server = createServer(app);
 const io = new Server(server, {
@@ -73,10 +76,10 @@ app.post("/api/messages", (req: Request, res: Response) => {
   );
 });
 
-server.listen(3000, () => {
-  console.log(`Server SOCKET is running http://localhost:${3000}/socket`);
+server.listen(apiPort, () => {
+  console.log(`Server SOCKET is running http://localhost:${apiPort}/socket`);
 });
 
-app.listen(8080, () => {
-  console.log(`Server API is running http://localhost:${8080}`);
+app.listen(socketPort, () => {
+  console.log(`Server API is running http://localhost:${socketPort}`);
 });
