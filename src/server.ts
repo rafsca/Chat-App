@@ -36,8 +36,6 @@ app.use(
   express.json()
 );
 
-app.use(express.static(path.join(__dirname, "public")));
-
 io.on("connection", (socket) => {
   socket.on("message-sent", (message) => {
     client.query(`INSERT INTO messages (content) VALUES ($1)`, [message], (error) => {
