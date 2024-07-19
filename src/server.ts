@@ -40,13 +40,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
   socket.on("message-sent", (message) => {
-    client.query(
-      `INSERT INTO messages (content) VALUES ($1)`,
-      [message],
-      (error) => {
-        if (!error) io.emit("message-received", message);
-      }
-    );
+    client.query(`INSERT INTO messages (content) VALUES ($1)`, [message], (error) => {
+      if (!error) io.emit("message-received", message);
+    });
   });
   socket.on("disconnect", () => {
     console.log("User disconnected");
@@ -66,14 +62,10 @@ app.get("/api/messages", (req: Request, res: Response) => {
 
 app.post("/api/messages", (req: Request, res: Response) => {
   const { content } = req.body;
-  client.query(
-    `INSERT INTO messages (content) VALUES ($1)`,
-    [content],
-    (error) => {
-      if (error) res.status(500).json({ error });
-      else res.status(200).json({ message: "Message created successfully" });
-    }
-  );
+  client.query(`INSERT INTO messages (content) VALUES ($1)`, [content], (error) => {
+    if (error) res.status(500).json({ error });
+    else res.status(200).json({ message: "Message created successfully" });
+  });
 });
 
 server.listen(PORT, () => {
